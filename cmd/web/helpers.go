@@ -24,6 +24,14 @@ func (app *applicatoin) notFound(w http.ResponseWriter) {
 	app.clientError(w, http.StatusNotFound)
 }
 
+func (app *applicatoin) addDefaultData(td *templateData, r *http.Request) *templateData {
+	if td == nil {
+		td = &templateData{}
+	}
+	td.CurrentYear = time.Now().Year()
+	return td
+}
+
 func (app *applicatoin) render(w http.ResponseWriter, r *http.Request, name string, td *templateData) {
 	ts, ok := app.templateCache[name]
 
@@ -34,19 +42,11 @@ func (app *applicatoin) render(w http.ResponseWriter, r *http.Request, name stri
 
 	buf := new(bytes.Buffer)
 
-	err := ts.Execute(buf, td)
+	err := ts.Execute(buf, app.addDefaultData(td, r))
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
 
 	buf.WriteTo(w)
-}
-
-func (app *applicatoin) addDefaultData(td *templateData, r *http.Request) *templateData {
-	if td == nil {
-		td = &templateData{}
-	}
-	td.CurrentYear = time.Now().Year()
-	return td
 }
