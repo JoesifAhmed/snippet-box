@@ -28,7 +28,9 @@ func (app *applicatoin) addDefaultData(td *templateData, r *http.Request) *templ
 	if td == nil {
 		td = &templateData{}
 	}
+	td.AuthenticatedUser = app.authenticatedUser(r)
 	td.CurrentYear = time.Now().Year()
+	td.Flash = app.session.PopString(r, "flash")
 	return td
 }
 
@@ -49,4 +51,8 @@ func (app *applicatoin) render(w http.ResponseWriter, r *http.Request, name stri
 	}
 
 	buf.WriteTo(w)
+}
+
+func (app *applicatoin) authenticatedUser(r *http.Request) int {
+	return app.session.GetInt(r, "userID")
 }
