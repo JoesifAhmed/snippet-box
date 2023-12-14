@@ -30,7 +30,7 @@ type applicatoin struct {
 
 func main() {
 	addr := flag.String("addr", ":3000", "HTTP network address")
-	dsn := flag.String("dsn", "web:MySQLWeb&911@/snippetbox?parseTime=true", "MySQL Database")
+	dsn := flag.String("dsn", "DSNGOESHERE?parseTime=true", "MySQL Database")
 	secret := flag.String("secret", "s6Ndh+pPbnzHbS*+9Pk8qGWhTzbpa@ge", "Secret Key")
 	flag.Parse()
 
